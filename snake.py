@@ -1,3 +1,4 @@
+import random
 from snake_utils import Direction
 
 
@@ -86,7 +87,7 @@ class Snake():
             #for index, prevPos in enumerate(self.body):
             #    self.body[index] = currPos
             #    currPos          = prevPos
-            
+
             # Didn't need to iterate entire list, just push new front position
             # and pop last, still dealing with list insertion of O(n)
             # Note: consider doublely linked list
@@ -102,13 +103,25 @@ class Snake():
         if (direction == Direction.DOWN ): return Direction.UP
 
 class Food():
-    def __init__(self, startPosX, startPosY):
+    def __init__(self, startPosX, startPosY, board, snake):
         self.position = [startPosX, startPosY]
+        self.board    = board
+        self.snake    = snake
         self.eaten    = False
-        
+
     def update(self):
+        """
+        Randomize location of food on the board.
+        Will place in a location not occupied by the snake
+        Note: Should optimize this by keeping a list of remaining board locations, and a list of snake locations
+        and randomly pick from the list of remaining board locations
+        """
         if (self.eaten):
-            self.position = [10,10]
+            while True:
+                x = random.randint(0, self.board.rowSize-1)
+                y = random.randint(0, self.board.colSize-1)
+                if (x,y) not in self.snake.body:
+                    break
+            self.position = (x,y)
             self.eaten = False
-            
-        
+

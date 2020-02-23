@@ -20,7 +20,7 @@ class SnakeGameState():
     def __init__(self, row_size=10, col_size=10):
         self.gameBoard    = Board(row_size, col_size)
         self.player1      = Snake(Direction.LEFT, row_size//2, col_size//2)
-        self.food         = Food(1, 1)
+        self.food         = Food(1, 1, self.gameBoard, self.player1)
         self.all_sprites  = [SnakeSprite(self.player1), FoodSprite(self.food)]
         self.frame_count  = 0
         self.player1Alive = True
